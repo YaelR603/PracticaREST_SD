@@ -1,41 +1,9 @@
-from fastapi import FastAPI, UploadFile, File, Form, Depends
-from typing import Optional
-from pydantic import BaseModel
-import shutil
-import os
-import uuid
+from fastapi import FastAPI, Depends
 import orm.repo as repo
 from sqlalchemy.orm import Session
 from orm.config import generador_sesion
 
 app = FastAPI()
-
-class AlumnoBase(BaseModel):
-    nombre:Optional[str]=None
-    edad:int
-    domicilio:str
-
-alumnos = [{
-    "id": 0,
-    "nombre": "Rosa Gonzáles",
-    "edad": 36,
-    "domicilio": "Av. 102, 53"
-}, {
-    "id": 1,
-    "nombre": "Irene Rojas",
-    "edad": 38,
-    "domicilio": "Calle 33, 10"
-}, {
-    "id": 2,
-    "nombre": "Israel Ortíz",
-    "edad": 8,
-    "domicilio": "Av. Reforma, 122"
-}, {
-    "id": 3,
-    "nombre": "Ximena Ramírez",
-    "edad": 10,
-    "domicilio": "Av. Constituyentes, 41"
-}]
 
 # decorator
 @app.get("/")
@@ -121,15 +89,15 @@ def eliminar_calificaciones_por_alumno(id:int,sesion:Session=Depends(generador_s
     return {"calificacion_alumno_borrada", "ok"}
 
 # Eliminar fotos por ID de alumno
-# delete("/alumnos/{id}/fotos")
+@app.delete("/alumnos/{id}/fotos")
 def eliminar_fotos_por_alumno(id:int,sesion:Session=Depends(generador_sesion)):
     repo.borrar_fotos_por_alumno(sesion,id)
     return {"foto_alumno_borrada", "ok"}
 
 # Eliminar alumnos por ID
-# delete("/alumnos/{id})
+@app.delete("/alumnos/{id}")
 def eliminar_alumno(id:int,sesion:Session=Depends(generador_sesion)):
     repo.borrar_califs_por_alumno(sesion,id)
     repo.borrar_fotos_por_alumno(sesion,id)
     repo.borrar_alumno(sesion,id)
-    return {alumno_borrado}
+    return {"alumno_borrado", "ok"}

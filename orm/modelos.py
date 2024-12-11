@@ -1,5 +1,5 @@
 from orm.config import BaseClass
-from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Float
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
 import datetime
 
 class Alumno(BaseClass):
