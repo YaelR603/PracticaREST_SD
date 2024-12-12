@@ -19,7 +19,7 @@ class Calificacion(BaseClass):
     id=Column(Integer, primary_key=True)
     id_alumno=Column(Integer, ForeignKey(Alumno.id))
     uea=Column(String(100))
-    calificacion=Column(String(100))
+    calificacion=Column(Integer)
 
 class Foto(BaseClass):
     __tablename__="fotos"
